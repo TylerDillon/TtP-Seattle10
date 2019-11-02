@@ -1,0 +1,4 @@
+#Sat Nov 02 09:14:42 PDT 2019
+base.0=/Users/Tyler/git/TtP-Seattle10/app/build/intermediates/transforms/dexMerger/debug/2
+path.0=classes.dex
+renamed.0=classes.dex
