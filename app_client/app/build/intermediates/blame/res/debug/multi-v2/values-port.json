@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/Tyler/git/TtP-Seattle10/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-port/values-port.xml",
+            "outputFile": "/Users/Tyler/git/TtP-Seattle10/app_client/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-port/values-port.xml",
             "map": [
                 {
                     "source": "/Users/Tyler/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/f71808f5cb3be90c752a2e626e2eb124/res/values-port/values-port.xml",

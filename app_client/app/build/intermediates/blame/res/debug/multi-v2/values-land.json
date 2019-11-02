@@ -1,8 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/Tyler/git/TtP-Seattle10/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "outputFile": "/Users/Tyler/git/TtP-Seattle10/app_client/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
             "map": [
+                {
+                    "source": "/Users/Tyler/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/6f58aa5278f5a95cf8b927f35969e5e9/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "232"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "328",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "505"
+                    }
+                },
                 {
                     "source": "/Users/Tyler/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/f71808f5cb3be90c752a2e626e2eb124/res/values-land/values-land.xml",
                     "from": {
