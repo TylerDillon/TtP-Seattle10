@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.triagetagger">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version"/>
+
+    <meta-data
+        android:name="com.google.android.maps.v2.API_KEY"
+        android:value="INSERT_API_KEY_HERE" />
+
+    <meta-data
+        android:name="com.google.android.location.v2.API_KEY"
+        android:value="INSERT_API_KEY_HERE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddNewPatient"></activity>
     </application>
 
 </manifest>
