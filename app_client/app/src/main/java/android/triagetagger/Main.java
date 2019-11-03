@@ -53,7 +53,7 @@ public class Main extends AppCompatActivity {
     Button tag_stripe_button = findViewById(R.id.stripe_count);
         tag_stripe_button.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void newStripeTag(View view) {
             stripe_count++;
             triage_color = "STRIPE";
         }
@@ -62,18 +62,16 @@ public class Main extends AppCompatActivity {
     Button tag_red_button = findViewById(R.id.red_count);
         tag_red_button.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void newRedTag(View view) {
             red_count++;
             triage_color = "RED";
         }
     });
 
-
-
     Button tag_green_button = findViewById(R.id.green_count);
         tag_green_button.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void newGreenTag(View view) {
             green_count++;
             triage_color = "GREEN";
         }
@@ -82,7 +80,7 @@ public class Main extends AppCompatActivity {
     Button tag_yell_button = findViewById(R.id.yellow_count);
         tag_yell_button.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void newYellowTag(View view) {
             yellow_count++;
             triage_color = "YELLOW";
         }
@@ -91,7 +89,7 @@ public class Main extends AppCompatActivity {
     Button button = findViewById(R.id./*add button name here*/);
         button.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void getLocationTag(View view) {
             if(ActivityCompat.checkSelfPermission(Main.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
