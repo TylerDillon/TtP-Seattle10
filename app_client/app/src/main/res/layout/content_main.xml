@@ -8,7 +8,7 @@
     tools:context="android.triagetagger.Main"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/db1_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="-24dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:elevation="4dp" />
 
@@ -33,24 +33,43 @@
                 android:layout_height="0dp"
                 android:layout_weight="6" >
 
-                <View
-                    android:id="@+id/tag_counter"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark">
-
+                <androidx.drawerlayout.widget.DrawerLayout
+                    android:id="@+id/tag_drawer"
+                    android:layout_width="150dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:background="#000000"
+                    android:onClick="closeTagDrawer"
+                    tools:openDrawer="left">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    </LinearLayout>
+                        android:layout_height="match_parent"
 
-                </View>
+                </androidx.drawerlayout.widget.DrawerLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ViewGroup
+                        android:id="@+id/tag_counter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimaryDark">
+
+                        <View
+                            android:layout_height="100dp"
+                            android:layout_width="100dp"
+                            android:background="#000000"/>
+
+                    </ViewGroup>
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_weight=""
+                    android:layout_height="350dp"
+                    android:layout_weight="0"
                     android:background="#e0e0e0"
                     android:layout_below="@id/tag_counter">
 
@@ -68,6 +87,7 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
 
+
                 <ImageButton
                     android:id="@+id/new_tag"
                     style="?android:attr/buttonStyleSmall"
@@ -77,6 +97,7 @@
                     android:layout_weight="1"
                     android:background="#f5f5f5"
                     android:layout_marginHorizontal="5dp"
+                    android:onClick="openDrawer"
                     android:src="@drawable/Tag-1-512"
 
                     />
