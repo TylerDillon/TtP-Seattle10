@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -135,10 +136,15 @@ public class Main extends AppCompatActivity {
         });
     }
 
-    //on progresss
-//    public void openWindow() {
-//        View windowView = (View) findViewById(R.id.window);
-//        ;
+//    //on progresss
+//    public void openDrawer(View view) {
+//        View drawerView = (View) findViewById(R.id.tag_drawer);
+//        drawerView.openDrawer();
+//    }
+//
+//    public void closeDrawer(View view) {
+//        View drawerView = (View) findViewById(R.id.tag_drawer);
+//        drawerView.closeDrawer();
 //    }
 
     public void createPatient(int num, String triage_color, double latitude, double longitude) throws IOException {
@@ -190,21 +196,6 @@ public class Main extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[] { ACCESS_FINE_LOCATION }, 1);
     }
 
-    // old getLocation()
-    // public void getLocation() {
-    // Task<Location> locationResult =
-    // mFusedLocationProviderClient.getLastLocation();
-    // locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>()
-    // {
-    // @Override
-    // public void onComplete(@NonNull Task<Location> task) {
-    // if(task.isSuccessful()) {
-    // mLastKnownLocation = task.getResult();
-    // }
-    // }
-    // });
-    // }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -226,7 +217,6 @@ public class Main extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-<<<<<<< HEAD
 
 
     public void prepareStatements() throws SQLException {
@@ -248,10 +238,6 @@ public class Main extends AppCompatActivity {
     public void tag_stripe(){
     }
 
-    public void openDrawer(View view){
-        View drawerView = (View) findViewById(R.id.tag_drawer);
-        drawerView.setMinimumHeight(10);
-    }
     public void displayForGps1(){
         TextView gpsView = (TextView) findViewById(R.id.gps_string_1);
         gpsView.setText(String.valueOf(gps_string_1));
