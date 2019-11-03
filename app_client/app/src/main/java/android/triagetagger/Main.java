@@ -59,15 +59,6 @@ public class Main extends AppCompatActivity {
 
         getPermission();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id./*add fab here*/);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         Button tag_stripe_button = findViewById(R.id.stripe_count);
@@ -135,6 +126,8 @@ public class Main extends AppCompatActivity {
             }
         });
     }
+
+
 
 //    //on progresss
 //    public void openDrawer(View view) {
