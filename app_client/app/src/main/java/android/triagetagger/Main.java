@@ -50,6 +50,73 @@ public class Main extends AppCompatActivity {
     private static final String COUNT_SELECT_COLOR = "SELECT COUNT(*) FROM Bracelet WHERE triage_color = ?;";
     private PreparedStatement countSelectColorStatement;
 
+    Button tag_stripe_button = findViewById(R.id.stripe_count);
+        tag_stripe_button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            stripe_count++;
+            triage_color = "STRIPE";
+        }
+    });
+
+    Button tag_red_button = findViewById(R.id.red_count);
+        tag_red_button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            red_count++;
+            triage_color = "RED";
+        }
+    });
+
+
+
+    Button tag_green_button = findViewById(R.id.green_count);
+        tag_green_button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            green_count++;
+            triage_color = "GREEN";
+        }
+    });
+
+    Button tag_yell_button = findViewById(R.id.yellow_count);
+        tag_yell_button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            yellow_count++;
+            triage_color = "YELLOW";
+        }
+    });
+
+    Button button = findViewById(R.id./*add button name here*/);
+        button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(ActivityCompat.checkSelfPermission(Main.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(Main.this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location != null) {
+                        int num = 0;
+                        try {
+                            updatePatientLatitude(num, location.getLatitude());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            updatePatientLongitude(num, location.getLongitude());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,84 +128,7 @@ public class Main extends AppCompatActivity {
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        Button tag_stripe_button = findViewById(R.id.stripe_count);
-        tag_stripe_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stripe_count++;
-                triage_color = "STRIPE";
-            }
-        });
-
-        Button tag_red_button = findViewById(R.id.red_count);
-        tag_red_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                red_count++;
-                triage_color = "RED";
-            }
-        });
-
-        Button tag_green_button = findViewById(R.id.green_count);
-        tag_green_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                green_count++;
-                triage_color = "GREEN";
-            }
-        });
-
-        Button tag_yell_button = findViewById(R.id.yellow_count);
-        tag_yell_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                yellow_count++;
-                triage_color = "YELLOW";
-            }
-        });
-
-        Button button = findViewById(R.id./*add button name here*/);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(ActivityCompat.checkSelfPermission(Main.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(Main.this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if(location != null) {
-                            int num = 0;
-                            try {
-                                updatePatientLatitude(num, location.getLatitude());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            try {
-                                updatePatientLongitude(num, location.getLongitude());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
-            }
-        });
     }
-
-
-
-//    //on progresss
-//    public void openDrawer(View view) {
-//        View drawerView = (View) findViewById(R.id.tag_drawer);
-//        drawerView.openDrawer();
-//    }
-//
-//    public void closeDrawer(View view) {
-//        View drawerView = (View) findViewById(R.id.tag_drawer);
-//        drawerView.closeDrawer();
-//    }
 
     public void createPatient(int num, String triage_color, double latitude, double longitude) throws IOException {
         URL url = new URL(
@@ -225,8 +215,6 @@ public class Main extends AppCompatActivity {
             return "Count select number ERROR";
         }
     }
-
-
 
     public void tag_stripe(){
     }
