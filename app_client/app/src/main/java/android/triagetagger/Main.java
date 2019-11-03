@@ -1,8 +1,10 @@
 package android.triagetagger;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,28 +12,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.net.HttpURLConnection;
+import java.io.IOException;
+import java.net.URL;
+
 import android.location.Location;
-import android.os.Looper;
-import android.widget.Toast;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
-
+//THE ONLY SOURCES OF ERRORS ARE BECAUSE I CAN'T MAKE THE BUTTONS
 public class Main extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LocationRequest mLocationRequest;
     private Location mLastKnownLocation;
-    private long UPDATE_INTERVAL = 10 * 1000;
-    private long FASTEST_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,70 +39,86 @@ public class Main extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        startLocationUpdates();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id./*add fab here*/);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                getLocation();
+                //getLocation(); //handling getLocation() below instead of its own method
+                //pass the location to back-end
             }
         });
-    }
 
-    // Trigger new location updates at interval
-    protected void startLocationUpdates() {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Create the location request to start receiving updates
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-
-        // Create LocationSettingsRequest object using location request
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(mLocationRequest);
-        LocationSettingsRequest locationSettingsRequest = builder.build();
-
-        // Check whether location settings are satisfied
-        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
-        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
-        settingsClient.checkLocationSettings(locationSettingsRequest);
-
-        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        onLocationChanged(locationResult.getLastLocation());
-                    }
-                },
-                Looper.myLooper());
-    }
-
-    public void onLocationChanged(Location location) {
-        // New location has now been determined
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        // You can now create a LatLng Object for use with maps
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-    }
-
-    public void getLocation() {
-        Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-        locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+        Button button = findViewById(R.id./*add button name here*/);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                if(task.isSuccessful()) {
-                    mLastKnownLocation = task.getResult();
+            public void onClick(View view) {
+                if(ActivityCompat.checkSelfPermission(Main.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
                 }
+                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(Main.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if(location != null) {
+//                            int num = 0;
+//                            try {
+//                                updatePatientLatitude(num, location.getLatitude());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            try {
+//                                updatePatientLongitude(num, location.getLongitude());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+                        }
+                    }
+                });
             }
         });
     }
+
+    public void updatePatientLatitude(int patientNum, double latitude) throws IOException {
+        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + latitude);
+        HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+    }
+
+    public void updatePatientLongitude(int patientNum, double longitude) throws IOException {
+        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + longitude);
+        HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+    }
+
+    public void updateTriageColor(int patientNum, String color) throws IOException {
+        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + color);
+        HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+    }
+
+    public void setFirstName(int patientNum, String firstName) throws IOException {
+        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + firstName);
+        HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+    }
+
+    public void setLastName(int patientNum, String lastName) throws IOException {
+        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + lastName);
+        HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+    }
+
+    //old getLocation()
+//    public void getLocation() {
+//        Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+//        locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Location> task) {
+//                if(task.isSuccessful()) {
+//                    mLastKnownLocation = task.getResult();
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
