@@ -26,6 +26,8 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 //THE ONLY SOURCES OF ERRORS ARE BECAUSE I CAN'T MAKE THE BUTTONS
 public class Main extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -39,14 +41,14 @@ public class Main extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getPermission();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id./*add fab here*/);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                //getLocation(); //handling getLocation() below instead of its own method
-                //pass the location to back-end
             }
         });
 
@@ -56,7 +58,7 @@ public class Main extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ActivityCompat.checkSelfPermission(Main.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if(ActivityCompat.checkSelfPermission(Main.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(Main.this, new OnSuccessListener<Location>() {
@@ -93,18 +95,22 @@ public class Main extends AppCompatActivity {
     }
 
     public void updateTriageColor(int patientNum, String color) throws IOException {
-        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + color);
+        URL url = new URL("https://seattle10demo.glitch.me/set_triage_color?patient_id=" + patientNum + "&value=" + color);
         HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
     }
 
     public void setFirstName(int patientNum, String firstName) throws IOException {
-        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + firstName);
+        URL url = new URL("https://seattle10demo.glitch.me/set_first_name?patient_id=" + patientNum + "&value=" + firstName);
         HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
     }
 
     public void setLastName(int patientNum, String lastName) throws IOException {
-        URL url = new URL("https://seattle10demo.glitch.me/set_gps_latitude?patient_id=" + patientNum + "&value=" + lastName);
+        URL url = new URL("https://seattle10demo.glitch.me/set_last_name?patient_id=" + patientNum + "&value=" + lastName);
         HttpURLConnection urlConnection =  (HttpURLConnection) url.openConnection();
+    }
+
+    private void getPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
     //old getLocation()
