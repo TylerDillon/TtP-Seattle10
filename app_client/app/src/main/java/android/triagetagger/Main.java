@@ -40,6 +40,7 @@ public class Main extends AppCompatActivity {
     private Location mLastKnownLocation;
 
     String triage_color = "GREEN";
+    int patient_number_placeholder = 0;
     int gps_string_1 = 0;
     int gps_string_2 = 0;
     int green_count = 0;
@@ -51,25 +52,33 @@ public class Main extends AppCompatActivity {
     private PreparedStatement countSelectColorStatement;
 
 
-    public void newStripeTag(View view) {
+    public void newStripeTag(View view) throws IOException {
         stripe_count++;
         triage_color = "STRIPE";
+        createPatient(patient_number_placeholder, triage_color);
+        patient_number_placeholder++;
     }
 
 
-    public void newRedTag(View view) {
+    public void newRedTag(View view) throws IOException{
         red_count++;
         triage_color = "RED";
+        createPatient(patient_number_placeholder, triage_color);
+        patient_number_placeholder++;
     }
 
-    public void newGreenTag(View view) {
+    public void newGreenTag(View view)throws IOException {
         green_count++;
         triage_color = "GREEN";
+        createPatient(patient_number_placeholder, triage_color);
+        patient_number_placeholder++;
     }
 
-    public void newYellowTag(View view) {
+    public void newYellowTag(View view)throws IOException {
         yellow_count++;
         triage_color = "YELLOW";
+        createPatient(patient_number_placeholder, triage_color);
+        patient_number_placeholder++;
     }
 
     public void getLocationTag(View view) {
@@ -80,14 +89,13 @@ public class Main extends AppCompatActivity {
             @Override
             public void onSuccess(Location location) {
                 if(location != null) {
-                    int num = 0;
                     try {
-                        updatePatientLatitude(num, location.getLatitude());
+                        updatePatientLatitude(patient_number_placeholder, location.getLatitude());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     try {
-                        updatePatientLongitude(num, location.getLongitude());
+                        updatePatientLongitude(patient_number_placeholder, location.getLongitude());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -109,19 +117,19 @@ public class Main extends AppCompatActivity {
 
     }
 
-    public void createPatient(int num, String triage_color, double latitude, double longitude) throws IOException {
+    public void createPatient(int num, String triage_color) throws IOException {
         URL url = new URL(
-                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&gps_longitude="+longitude+"&gps_longitude="+latitude);
+                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color);
     }
 
     public void createPatient(int num, String triage_color, String firstName, double latitude, double longitude) throws IOException {
         URL url = new URL(
-                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&first_name="+firstName+"&gps_longitude="+longitude+"&gps_longitude="+latitude);
+                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&first_name="+firstName);
     }
 
     public void createPatient(int num, String triage_color, String firstName, String lastName, double latitude, double longitude) throws IOException {
         URL url = new URL(
-                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&first_name="+firstName+"&last_name="+lastName+"&gps_longitude="+longitude+"&gps_longitude="+latitude);
+                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&first_name="+firstName+"&last_name="+lastName);
     }
 
     public void updatePatientLatitude(int patientNum, double latitude) throws IOException {
@@ -184,6 +192,7 @@ public class Main extends AppCompatActivity {
     public void prepareStatements() throws SQLException {
         countSelectColorStatement = conn.prepareStatement(COUNT_SELECT_COLOR);
     }
+
     public String CountSelectColor(String color) {
         try {
             countSelectColorStatement.setNString(1, color);
@@ -193,9 +202,6 @@ public class Main extends AppCompatActivity {
             e.printStackTrace();
             return "Count select number ERROR";
         }
-    }
-
-    public void tag_stripe(){
     }
 
     public void displayForGps1(){
