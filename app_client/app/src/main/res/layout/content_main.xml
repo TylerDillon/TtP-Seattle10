@@ -8,13 +8,111 @@
     tools:context="android.triagetagger.Main"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/db1_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e0e0e0"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+            <View
+                android:id="@+id/header_bar"
+                android:layout_width="1440dp"
+                android:layout_height="0dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="-24dp"
+                android:layout_weight="2"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6" >
+
+                <View
+                    android:id="@+id/tag_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark">
+
+                </View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_weight=""
+                    android:background="#e0e0e0"
+                    android:layout_below="@id/tag_counter">
+
+                </View>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center|bottom"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageButton
+                    android:id="@+id/new_tag"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_weight="1"
+                    android:background="#f5f5f5"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/Tag-1-512"
+
+                    />
+
+                <ImageButton
+                    android:id="@+id/edit_tag"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_weight="1"
+                    android:background="#f5f5f5"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="2" />
+
+                <ImageButton
+                    android:id="@+id/open_map"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_weight="1"
+                    android:background="#f5f5f5"
+                    android:layout_marginHorizontal="5dp"
+
+                    android:text="3" />
+
+                <ImageButton
+                    android:id="@+id/resolve_tag"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="#f5f5f5"
+                    android:layout_marginHorizontal="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/check-icon" />
+            </LinearLayout>
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>
