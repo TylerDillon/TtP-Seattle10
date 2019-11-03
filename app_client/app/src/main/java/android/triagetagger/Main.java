@@ -1,5 +1,8 @@
 package android.triagetagger;
 
+import java.io.*;
+import java.sql.*;
+import android.os.*;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,7 +19,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-
+import android.view.*;
+import android.widget.TextView;
 import java.net.HttpURLConnection;
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +37,17 @@ public class Main extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LocationRequest mLocationRequest;
     private Location mLastKnownLocation;
+
+    String triage_color = "GREEN";
+    int gps_string_1 = 0;
+    int gps_string_2 = 0;
+    int green_count = 0;
+    int yellow_count = 0;
+    int red_count = 0;
+    int stripe_count = 0;
+    private Connection conn;
+    private static final String COUNT_SELECT_COLOR = "SELECT COUNT(*) FROM Bracelet WHERE triage_color = ?;";
+    private PreparedStatement countSelectColorStatement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,42 @@ public class Main extends AppCompatActivity {
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        Button tag_stripe_button = findViewById(R.id.stripe_count);
+        tag_stripe_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stripe_count++;
+                triage_color = "STRIPE";
+            }
+        });
+
+        Button tag_red_button = findViewById(R.id.red_count);
+        tag_red_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                red_count++;
+                triage_color = "RED";
+            }
+        });
+
+        Button tag_green_button = findViewById(R.id.green_count);
+        tag_green_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                green_count++;
+                triage_color = "GREEN";
+            }
+        });
+
+        Button tag_yell_button = findViewById(R.id.yellow_count);
+        tag_yell_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                yellow_count++;
+                triage_color = "YELLOW";
+            }
+        });
+
         Button button = findViewById(R.id./*add button name here*/);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,23 +116,44 @@ public class Main extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         if(location != null) {
-//                            int num = 0;
-//                            try {
-//                                updatePatientLatitude(num, location.getLatitude());
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                            try {
-//                                updatePatientLongitude(num, location.getLongitude());
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
+                            int num = 0;
+                            try {
+                                updatePatientLatitude(num, location.getLatitude());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                updatePatientLongitude(num, location.getLongitude());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
             }
         });
+    }
+
+    //on progresss
+//    public void openWindow() {
+//        View windowView = (View) findViewById(R.id.window);
+//        ;
+//    }
+
+    public void createPatient(int num, String triage_color, double latitude, double longitude) throws IOException {
+        URL url = new URL(
+                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&gps_longitude="+longitude+"&gps_longitude="+latitude);
+    }
+
+    public void createPatient(int num, String triage_color, String firstName, double latitude, double longitude) throws IOException {
+        URL url = new URL(
+                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&first_name="+firstName+"&gps_longitude="+longitude+"&gps_longitude="+latitude);
+    }
+
+    public void createPatient(int num, String triage_color, String firstName, String lastName, double latitude, double longitude) throws IOException {
+        URL url = new URL(
+                "https://seattle10demo.glitch.me/add_patient?patient_id="+num+"&triage_color="+triage_color+"&first_name="+firstName+"&last_name="+lastName+"&gps_longitude="+longitude+"&gps_longitude="+latitude);
     }
 
     public void updatePatientLatitude(int patientNum, double latitude) throws IOException {
@@ -154,4 +226,55 @@ public class Main extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+<<<<<<< HEAD
+
+
+    public void prepareStatements() throws SQLException {
+        countSelectColorStatement = conn.prepareStatement(COUNT_SELECT_COLOR);
+    }
+    public String CountSelectColor(String color) {
+        try {
+            countSelectColorStatement.setNString(1, color);
+            ResultSet result = countSelectColorStatement.executeQuery();
+            return " triage color : " + color + "\n";
+        } catch(SQLException e){
+            e.printStackTrace();
+            return "Count select number ERROR";
+        }
+    }
+
+
+
+    public void tag_stripe(){
+    }
+
+    public void openDrawer(View view){
+        View drawerView = (View) findViewById(R.id.tag_drawer);
+        drawerView.setMinimumHeight(10);
+    }
+    public void displayForGps1(){
+        TextView gpsView = (TextView) findViewById(R.id.gps_string_1);
+        gpsView.setText(String.valueOf(gps_string_1));
+    }
+    public void displayForGps2(){
+        TextView gpsView = (TextView) findViewById(R.id.gps_string_2);
+        gpsView.setText(String.valueOf(gps_string_2));
+    }
+    public void displayGreen(){
+        TextView greenView = (TextView) findViewById(R.id.green_count);
+        greenView.setText(String.valueOf(green_count));
+    }
+    public void displayYellow(){
+        TextView yellowView = (TextView) findViewById(R.id.yellow_count);
+        yellowView.setText(String.valueOf(yellow_count));
+    }
+    public void displayRed(){
+        TextView redView = (TextView) findViewById(R.id.red_count);
+        redView.setText(String.valueOf(red_count));
+    }
+    public void displayStripe(){
+        TextView stripeView = (TextView) findViewById(R.id.stripe_count);
+        stripeView.setText(String.valueOf(stripe_count));
+    }
+
 }
