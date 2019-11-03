@@ -53,7 +53,9 @@ public class Main extends AppCompatActivity {
 
 
     public void newStripeTag(View view) throws IOException {
-        stripe_count++;
+
+        TextView text = (TextView) findViewById(stripe_count);
+        text.setText(stripe_count);
         triage_color = "STRIPE";
         createPatient(patient_number_placeholder, triage_color);
         patient_number_placeholder++;
@@ -61,21 +63,24 @@ public class Main extends AppCompatActivity {
 
 
     public void newRedTag(View view) throws IOException{
-        red_count++;
+        TextView text = (TextView) findViewById(red_count);
+        text.setText(red_count);
         triage_color = "RED";
         createPatient(patient_number_placeholder, triage_color);
         patient_number_placeholder++;
     }
 
     public void newGreenTag(View view)throws IOException {
-        green_count++;
+        TextView text = (TextView) findViewById(green_count);
+        text.setText(green_count);
         triage_color = "GREEN";
         createPatient(patient_number_placeholder, triage_color);
         patient_number_placeholder++;
     }
 
     public void newYellowTag(View view)throws IOException {
-        yellow_count++;
+        TextView text = (TextView) findViewById(yellow_count);
+        text.setText(yellow_count);
         triage_color = "YELLOW";
         createPatient(patient_number_placeholder, triage_color);
         patient_number_placeholder++;
